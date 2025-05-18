@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, FileText } from 'lucide-react'
+import { Plus, FileText, Trash2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { Note } from "@/components/notes-app"
@@ -113,6 +113,16 @@ export function HomeScreen({ notes, onNoteClick, onDeleteNote, onNewNote, search
                   <div className="relative z-10 flex h-full flex-col p-4 sm:p-7">
                     <div className="mb-4 flex items-start justify-between">
                       <h3 className="font-semibold text-lg sm:text-xl line-clamp-1 text-slate-800">{title}</h3>
+                      <button
+                        className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 hover:bg-black/5 rounded-lg"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeleteNote(note.id);
+                        }}
+                        aria-label="Delete note"
+                      >
+                        <Trash2 className="h-4 w-4 text-slate-500 hover:text-red-600 transition-colors" />
+                      </button>
                     </div>
                     <p className="mb-4 text-sm sm:text-base text-slate-600 line-clamp-3 sm:line-clamp-4">{preview}</p>
                     <div className="mt-auto text-sm text-slate-500 font-medium">{formatDate(note.updatedAt)}</div>
