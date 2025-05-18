@@ -8,9 +8,14 @@ import { Toaster } from "@/components/toaster"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Markdown Notes App",
+  title: "Mini Notes",
   description: "A modern markdown notes application",
-    generator: 'v0.dev'
+  icons: {
+    icon: "https://img.freepik.com/premium-vector/3d-illustration-sticky-note-isolated-white-background_598925-972.jpg",
+    shortcut: "https://img.freepik.com/premium-vector/3d-illustration-sticky-note-isolated-white-background_598925-972.jpg",
+    apple: "https://img.freepik.com/premium-vector/3d-illustration-sticky-note-isolated-white-background_598925-972.jpg",
+  },
+    
 }
 
 export default function RootLayout({
