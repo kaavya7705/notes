@@ -1,9 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, Search, Trash2, FileText } from "lucide-react"
+import { Plus, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import type { Note } from "@/components/notes-app"
 
@@ -12,10 +11,10 @@ interface HomeScreenProps {
   onNoteClick: (note: Note) => void
   onDeleteNote: (id: string) => void
   onNewNote: () => void
+  searchQuery: string // Add this prop
 }
 
-export function HomeScreen({ notes, onNoteClick, onDeleteNote, onNewNote }: HomeScreenProps) {
-  const [searchQuery, setSearchQuery] = useState("")
+export function HomeScreen({ notes, onNoteClick, onDeleteNote, onNewNote, searchQuery }: HomeScreenProps) {
   const [hoveredNoteId, setHoveredNoteId] = useState<string | null>(null)
 
   // Extract title from markdown content (first heading or first line)
@@ -63,20 +62,6 @@ export function HomeScreen({ notes, onNoteClick, onDeleteNote, onNewNote }: Home
   return (
     <div className="flex-1 overflow-auto p-6 md:p-8 bg-pattern">
       <div className="mx-auto max-w-7xl">
-        {/* Search bar */}
-        <div className="mb-8 flex items-center gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-indigo-400" />
-            <Input
-              placeholder="Search notes..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-white/80 backdrop-blur-sm border-slate-200 shadow-md focus-visible:ring-indigo-500 transition-all duration-200"
-            />
-          </div>
-          
-        </div>
-
         {/* Notes grid */}
         {filteredNotes.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -125,20 +110,6 @@ export function HomeScreen({ notes, onNoteClick, onDeleteNote, onNewNote }: Home
                   <div className="relative z-10 flex h-full flex-col p-5">
                     <div className="mb-3 flex items-start justify-between">
                       <h3 className="font-semibold text-lg line-clamp-1 text-slate-800">{title}</h3>
-                      {hoveredNoteId === note.id && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 -mt-1 -mr-1 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors duration-200"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            onDeleteNote(note.id)
-                          }}
-                          aria-label="Delete note"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      )}
                     </div>
                     <p className="mb-4 text-sm text-slate-600 line-clamp-4">{preview}</p>
                     <div className="mt-auto text-xs text-slate-500 font-medium">{formatDate(note.updatedAt)}</div>

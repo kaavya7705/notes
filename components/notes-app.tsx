@@ -31,6 +31,7 @@ export function NotesApp() {
   const [notes, setNotes] = useState<Note[]>([])
   const [currentNote, setCurrentNote] = useState<Note | null>(null)
   const [isEditorOpen, setIsEditorOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
   const isMobile = useIsMobile()
 
   // Initialize with default notes if no notes exist
@@ -107,12 +108,22 @@ export function NotesApp() {
 
   return (
     <div className="flex h-screen flex-col bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      <Navbar onNewNote={handleCreateNewNote} />
+      <Navbar 
+        onNewNote={handleCreateNewNote} 
+        searchQuery={searchQuery} 
+        onSearchChange={setSearchQuery} 
+      />
 
       {isEditorOpen && currentNote ? (
         <EditorScreen note={currentNote} updateNote={updateNote} onClose={closeEditor} />
       ) : (
-        <HomeScreen notes={notes} onNoteClick={openNote} onDeleteNote={deleteNote} onNewNote={handleCreateNewNote} />
+        <HomeScreen 
+          notes={notes} 
+          onNoteClick={openNote} 
+          onDeleteNote={deleteNote} 
+          onNewNote={handleCreateNewNote}
+          searchQuery={searchQuery} // Add this prop
+        />
       )}
     </div>
   )

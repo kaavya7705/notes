@@ -1,13 +1,16 @@
 "use client"
 
-import { FileText, Plus } from "lucide-react"
+import { FileText, Plus, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 interface NavbarProps {
   onNewNote: () => void
+  searchQuery: string
+  onSearchChange: (query: string) => void
 }
 
-export function Navbar({ onNewNote }: NavbarProps) {
+export function Navbar({ onNewNote, searchQuery, onSearchChange }: NavbarProps) {
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center border-b bg-white/90 backdrop-blur-md px-4 shadow-md">
       <div className="flex w-full items-center justify-between">
@@ -21,6 +24,19 @@ export function Navbar({ onNewNote }: NavbarProps) {
             </h1>
           </div>
         </div>
+        
+        <div className="flex-1 max-w-xl mx-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-indigo-400" />
+            <Input
+              placeholder="Search notes..."
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="pl-10 bg-white/80 backdrop-blur-sm border-slate-200 shadow-md focus-visible:ring-indigo-500 transition-all duration-200"
+            />
+          </div>
+        </div>
+
         <div className="flex items-center gap-2">
           <Button
             onClick={onNewNote}
