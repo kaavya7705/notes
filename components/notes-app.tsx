@@ -108,11 +108,13 @@ export function NotesApp() {
 
   return (
     <div className="flex h-screen flex-col bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      <Navbar 
-        onNewNote={handleCreateNewNote} 
-        searchQuery={searchQuery} 
-        onSearchChange={setSearchQuery} 
-      />
+      {!isEditorOpen && (
+        <Navbar 
+          onNewNote={handleCreateNewNote} 
+          searchQuery={searchQuery} 
+          onSearchChange={setSearchQuery} 
+        />
+      )}
 
       {isEditorOpen && currentNote ? (
         <EditorScreen note={currentNote} updateNote={updateNote} onClose={closeEditor} />
@@ -122,7 +124,7 @@ export function NotesApp() {
           onNoteClick={openNote} 
           onDeleteNote={deleteNote} 
           onNewNote={handleCreateNewNote}
-          searchQuery={searchQuery} // Add this prop
+          searchQuery={searchQuery}
         />
       )}
     </div>

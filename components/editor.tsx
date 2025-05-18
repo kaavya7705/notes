@@ -26,7 +26,7 @@ export function Editor({ note, updateNote }: EditorProps) {
   const [splitPosition, setSplitPosition] = useState(50) // percentage
   const resizeDivRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const previewRef = useRef<HTMLDivElement>(null)
+  const previewRef = useRef<HTMLDivElement>(null!)
   const isMobile = useIsMobile()
 
   // Update content when note changes

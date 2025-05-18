@@ -55,16 +55,16 @@ export function HomeScreen({ notes, onNoteClick, onDeleteNote, onNewNote, search
   const filteredNotes = notes.filter((note) => note.content.toLowerCase().includes(searchQuery.toLowerCase()))
 
   // Generate a random rotation between -2 and 2 degrees
-  const getRandomRotation = () => {
-    return `rotate-[${(Math.random() * 4 - 2).toFixed(1)}deg]`
+  const getTilt = () => {
+    return 'rotate-[-2deg]'; // Fixed left tilt of -2 degrees
   }
 
   return (
-    <div className="flex-1 overflow-auto p-6 md:p-8 bg-pattern">
-      <div className="mx-auto max-w-7xl">
+    <div className="flex-1 overflow-auto p-6 md:p-8 bg-pattern ">
+      <div className="mx-auto max-w-7xl top-5">
         {/* Notes grid */}
         {filteredNotes.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="flex flex-col items-center justify-center py-16 text-center top-5">
             <div className="mb-4 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 p-5 shadow-md">
               <FileText className="h-10 w-10 text-indigo-500" />
             </div>
@@ -83,20 +83,23 @@ export function HomeScreen({ notes, onNoteClick, onDeleteNote, onNewNote, search
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
             {filteredNotes.map((note) => {
               const title = extractTitle(note.content)
               const preview = extractPreview(note.content)
-              const randomRotation = getRandomRotation()
+              const tilt = getTilt()
 
               return (
                 <div
                   key={note.id}
                   className={cn(
-                    "group relative cursor-pointer overflow-hidden rounded-lg bg-gradient-to-br border shadow-lg transition-all duration-300",
+                    "group relative cursor-pointer overflow-hidden rounded-2xl bg-gradient-to-br border shadow-lg transition-all duration-300",
                     note.color || "from-amber-50 to-amber-100 border-amber-200",
-                    randomRotation,
+                    tilt,
+                    "hover:rotate-0",
                     "hover:shadow-xl hover:scale-[1.03] hover:-translate-y-1",
+                    "transform-gpu",
+                    "min-h-[200px]" // Added minimum height
                   )}
                   onClick={() => onNoteClick(note)}
                   onMouseEnter={() => setHoveredNoteId(note.id)}
@@ -105,14 +108,14 @@ export function HomeScreen({ notes, onNoteClick, onDeleteNote, onNewNote, search
                   <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity" />
 
                   {/* Pin effect */}
-                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 shadow-sm z-10"></div>
+                  <div className="absolute -top-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg z-10"></div>
 
-                  <div className="relative z-10 flex h-full flex-col p-5">
-                    <div className="mb-3 flex items-start justify-between">
-                      <h3 className="font-semibold text-lg line-clamp-1 text-slate-800">{title}</h3>
+                  <div className="relative z-10 flex h-full flex-col p-7">
+                    <div className="mb-4 flex items-start justify-between">
+                      <h3 className="font-semibold text-xl line-clamp-1 text-slate-800">{title}</h3>
                     </div>
-                    <p className="mb-4 text-sm text-slate-600 line-clamp-4">{preview}</p>
-                    <div className="mt-auto text-xs text-slate-500 font-medium">{formatDate(note.updatedAt)}</div>
+                    <p className="mb-4 text-base text-slate-600 line-clamp-4">{preview}</p>
+                    <div className="mt-auto text-sm text-slate-500 font-medium">{formatDate(note.updatedAt)}</div>
                   </div>
                 </div>
               )
